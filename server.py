@@ -12,7 +12,7 @@ parser.add_argument("-t", "--transfer", help="transfer files")
 args = parser.parse_args()
 
 def send_cmd(cmd):
-	packet = IP(dst="192.168.1.24")/ICMP(id=0x0001, seq=0x1)/cmd
+	packet = IP(dst="192.168.58.167")/ICMP(id=0x6341, seq=0x1)/cmd
 	send(packet)
 	print("done")
 
