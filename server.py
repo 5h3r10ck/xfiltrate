@@ -9,7 +9,6 @@ import binascii
 parser = argparse.ArgumentParser()
 parser.add_argument('ip', help='IP address')
 parser.add_argument('-c', '--command', help='execute command')
-parser.add_argument('-t', '--transfer', help='transfer files')
 
 args = parser.parse_args()
 
@@ -24,13 +23,4 @@ def send_cmd(cmd):
 	out=binascii.unhexlify(data).decode('utf8')
 	print(out)
 
-def send_path(path):
-	hex_path = binascii.hexlify(path.encode('utf8'))
-	packet = IP(dst=args.ip)/ICMP(id=0x6341, seq=0x1)/hex_path
-	resp = send(packet, verbose=0)
-	#data = resp[0][0][Raw].load.decode('utf8')
-	#out=binascii.unhexlify(data).decode('utf8')
-	#print(out)
-
-#send_cmd(args.command)
-send_path(args.transfer)
+send_cmd(args.command)
